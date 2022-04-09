@@ -1,0 +1,73 @@
+---
+# Tool version
+easyrsa_version: 3.0.8
+
+# path to install easyrsa
+easyrsa_bin_dir: /opt/easyrsa 
+
+# path to pki
+easyrsa_pki_dir: /etc/ssl/pki 
+
+# generate Diffie-Hellman key
+easyrsa_gendh: true 
+
+# generate and sign a subca
+easyrsa_ca_sub_ca: false 
+
+# parent pki to sign subca (only neccesary if easyrsa_ca_sub_ca is true)
+easyrsa_ca_sub_ca_parent_pki: /etc/ssl/pki 
+
+# cn_only (use just a CN value) or org 
+# (use the "traditional" Country/State/City/Org/OU/email/CN format)
+easyrsa_ca_dn_mode: cn_only 
+
+# certificate common name
+easyrsa_ca_cn: easyrsaCA 
+
+# hash digest to use for req/cert signing
+easyrsa_ca_digest: sha256 
+
+# keysize in bits to generate
+easyrsa_ca_keysize: 4096 
+
+# crypto alg to use: rsa or ec
+easyrsa_ca_use_algo: rsa 
+
+# CA expiration time in days
+easyrsa_ca_expire: 3650 
+
+# CRL 'next publish' time in days
+easyrsa_ca_crl_days: 1800 
+
+# the DN country with org mode
+easyrsa_ca_req_c: 
+
+# the DN state/province with org mode
+easyrsa_ca_req_st: 
+
+# the DN city/locality with org mode
+easyrsa_ca_req_city: 
+
+# the DN organization with org mode
+easyrsa_ca_req_org: 
+
+# DN organizational unit with org mode
+easyrsa_ca_req_ou: 
+
+# the DN email with org mode
+easyrsa_ca_req_email: 
+
+## Cert opts
+# easyrsa_cert_list:
+#   - easyrsa_cert_req_cn: server1
+#     #easyrsa_cert_subject_alt_name: ''
+#     easyrsa_cert_days: 730
+#     easyrsa_cert_x509_type: server
+#   - easyrsa_cert_req_cn: client1
+#     #easyrsa_cert_subject_alt_name: ''
+#     easyrsa_cert_days: 730
+#     easyrsa_cert_x509_type: client
+#   - easyrsa_cert_req_cn: client2
+#     #easyrsa_cert_subject_alt_name: ''
+#     easyrsa_cert_days: 730
+#     easyrsa_cert_x509_type: client

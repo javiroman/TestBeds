@@ -1,0 +1,27 @@
+---
+- name: Copy SubCA req to parent pki
+  copy:
+    src: "{{ easyrsa_pki_dir }}/reqs/ca.req"
+    dest: "{{ easyrsa_ca_sub_ca_parent_pki }}/reqs/{{ easyrsa_ca_cn }}.req"
+    remote_src: yes
+
+- name: Saved current pki
+  set_fact:
+    easyrsa_pki_original: "{{ easyrsa_pki_dir }}"
+
+- name: Changed pki to parent
+  set_fact:
+    easyrsa_pki_dir: "{{ easyrsa_ca_sub_ca_parent_pki }}"
+
+- name: Sign SubCA request
+  command: "{{ easyrsa_command }} {{ easyrsa_ca_options }} --days={{ easyrsa_ca_expire }} --req-cn='{{ easyrsa_ca_cn }}' sign-req ca '{{ easyrsa_ca_cn }}' nopass"
+
+- name: Changed pki to children
+  set_fact:
+    easyrsa_pki_dir: "{{ easyrsa_pki_original }}"
+
+- name: Copy SubCA crt to children pki
+  copy:
+    src: "{{ easyrsa_ca_sub_ca_parent_pki }}/issued/{{ easyrsa_ca_cn }}.crt"
+    dest: "{{ easyrsa_pki_dir }}/ca.crt"
+    remote_src: yes

@@ -1,0 +1,38 @@
+---
+- name: Install Apache Zookeeper RPM
+  yum: 
+    name: "{{ rpm_url }}/{{ zookeeper_server_rpm }}" 
+    state: present
+  ignore_errors: True
+
+- name: Create the Zookeeper config file
+  template:
+    src: zoo.cfg.j2
+    dest: /opt/keedio/zookeeper/conf/zoo.cfg
+    owner: zookeeper
+    group: zookeeper
+    mode: 0644
+  notify: restart zookeeper
+
+- name: Create the Zookeeper data dir
+  file:
+    path: /opt/keedio/zookeeper/data
+    state: directory
+    owner: zookeeper
+    group: zookeeper
+    mode: 0755
+
+- name: Create the Zookeeper the myid file
+  template:
+    src: myid.j2
+    dest: /opt/keedio/zookeeper/data/myid
+    owner: zookeeper
+    group: zookeeper
+    mode: 0644
+  notify: restart zookeeper
+
+- name: Ensure Zookeeper is started and enabled on boot
+  service:
+    name: zookeeper
+    state: started
+    enabled: true

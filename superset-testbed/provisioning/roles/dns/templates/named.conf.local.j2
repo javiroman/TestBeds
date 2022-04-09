@@ -1,0 +1,12 @@
+//
+// /etc/named/named.conf.local
+//
+zone "testbed.lan" IN {
+    type master;
+    file "/etc/named/zones/db.testbed.lan"; 
+};
+
+zone "10.0.100.in-addr.arpa" IN {
+    type master;
+    file "/etc/named/zones/db.10.0.100"; 
+};

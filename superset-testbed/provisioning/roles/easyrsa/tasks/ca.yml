@@ -1,0 +1,25 @@
+---
+- name: Does CA exits
+  stat:
+    path: "{{ easyrsa_pki_dir }}/ca.crt"
+  register: easyrsa_ca_exists
+
+- name: Build CA if not exits
+  command: "{{ easyrsa_command }} {{ easyrsa_ca_options }} --days={{ easyrsa_ca_expire }} --req-cn={{ easyrsa_ca_cn }} build-ca {{ 'subca' if easyrsa_ca_sub_ca else '' }} nopass"
+  when: not easyrsa_ca_exists.stat.exists
+
+- name: Include subCA
+  include: subca.yml
+  when: (not easyrsa_ca_exists.stat.exists) and (easyrsa_ca_sub_ca == true)
+
+- name: Rebuild CRL
+  command: "{{ easyrsa_command }} {{ easyrsa_ca_options }} --days={{ easyrsa_ca_crl_days }} --req-cn={{ easyrsa_ca_cn }} gen-crl"
+
+- name: Check DH
+  stat:
+    path: "{{ easyrsa_pki_dir }}/dh.pem"
+  register: easyrsa_dh_exists
+
+- name: Gen DH
+  command: "{{ easyrsa_command }} --pki-dir={{ easyrsa_pki_dir }} gen-dh"
+  when: (not easyrsa_dh_exists.stat.exists) and (easyrsa_gendh == true)

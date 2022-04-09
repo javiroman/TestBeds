@@ -1,0 +1,59 @@
+//  
+// /etc/named.conf
+//
+options {
+    listen-on port 53 { any; };
+
+    directory   "/var/named";
+
+    dump-file   "/var/named/data/cache_dump.db";
+
+    statistics-file "/var/named/data/named_stats.txt";
+
+    memstatistics-file "/var/named/data/named_mem_stats.txt";
+
+    allow-query     { any; };
+
+    querylog yes;
+
+    recursion yes;
+
+    // Estos dos son nuevos
+    forward first;
+    forwarders { 8.8.8.8; };
+
+    // Cambiado a no
+    dnssec-enable no;
+
+    // Cambiado a no
+    dnssec-validation no;
+
+    // Desactivado
+    //bindkeys-file "/etc/named.iscdlv.key";
+
+    managed-keys-directory "/var/named/dynamic";
+
+    pid-file "/run/named/named.pid";
+
+    session-keyfile "/run/named/session.key";
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+
+zone "." IN {
+    type hint;
+    file "named.ca";
+};
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+
+/* 
+ * Testbed
+ */
+include "/etc/named/named.conf.local";

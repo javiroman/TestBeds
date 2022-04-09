@@ -1,0 +1,18 @@
+---
+- name: Check if request exists for {{ item.easyrsa_cert_req_cn }}
+  stat:
+    path: '{{ easyrsa_pki_dir }}/reqs/{{ item.easyrsa_cert_req_cn }}.req'
+  register: easyrsa_req_exists
+
+- name: Create certificate request for {{ item.easyrsa_cert_req_cn }}
+  command: "{{ easyrsa_command }} {{ easyrsa_ca_options }} --days={{ item.easyrsa_cert_days }} --req-cn='{{ item.easyrsa_cert_req_cn }}' {{ '--subject-alt-name=\"' + item.easyrsa_cert_subject_alt_name + '\"' if item.easyrsa_cert_subject_alt_name is defined else '' }} gen-req '{{ item.easyrsa_cert_req_cn }}' nopass"
+  when: not easyrsa_req_exists.stat.exists
+
+- name: Check if certificate exists for {{ item.easyrsa_cert_req_cn }}
+  stat:
+    path: '{{ easyrsa_pki_dir }}/issued/{{ item.easyrsa_cert_req_cn }}.crt'
+  register: easyrsa_crt_exists
+
+- name: Sign certificate request for {{ item.easyrsa_cert_req_cn }}
+  command: "{{ easyrsa_command }} {{ easyrsa_ca_options }} --days={{ item.easyrsa_cert_days }} --req-cn='{{ item.easyrsa_cert_req_cn }}' {{ '--subject-alt-name=\"' + item.easyrsa_cert_subject_alt_name + '\"' if item.easyrsa_cert_subject_alt_name is defined else '' }} sign-req '{{ item.easyrsa_cert_x509_type }}' '{{ item.easyrsa_cert_req_cn }}' nopass"
+  when: not easyrsa_crt_exists.stat.exists

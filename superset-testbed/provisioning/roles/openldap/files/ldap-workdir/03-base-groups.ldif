@@ -1,0 +1,11 @@
+dn: ou=people,dc=testbed,dc=lan
+objectClass: organizationalUnit
+objectClass: extensibleObject
+objectclass: top
+ou: people
+
+dn: ou=groups,dc=testbed,dc=lan
+objectclass: organizationalUnit
+objectClass: extensibleObject
+objectclass: top
+ou: groups

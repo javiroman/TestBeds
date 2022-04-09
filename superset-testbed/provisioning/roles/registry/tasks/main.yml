@@ -1,0 +1,17 @@
+---
+- name: Install Apache NiFi Registry RPM
+  yum: 
+    name: "{{ rpm_url }}/{{ nifi_registry_rpm }}" 
+    state: present
+  ignore_errors: True
+
+    #- name: Setup Apache NiFi Registry nifi-registry.properties
+    #  template: 
+    #    src: nifi-registry.properties.j2 
+    #    dest: /opt/keedio/nifi-registry/conf/nifi-registry.properties
+
+- name: Start Apache NiFi Registry
+  service: 
+    name: nifi-registry
+    state: started
+    enabled: true

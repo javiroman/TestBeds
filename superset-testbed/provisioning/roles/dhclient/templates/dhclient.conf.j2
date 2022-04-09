@@ -1,0 +1,3 @@
+# /etc/dhcp/dhclient.conf
+# The custom DNS server IP
+prepend domain-name-servers {{ hostvars['superset-dns'].ansible_host }};

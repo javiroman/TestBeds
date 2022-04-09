@@ -1,0 +1,89 @@
+---
+- name: Install EPEL
+  yum: 
+    name: epel-release
+    state: present
+
+- name: Install OpenLDAP Package and Utils
+  yum: 
+    name: "{{ openldap_packages }}" 
+    state: present
+
+- name: LDAP Start service
+  service: 
+    name: slapd 
+    state: started
+    enabled: true
+
+- name: LDAP Create ldap-wordir folder
+  copy:
+    src: ldap-workdir
+    owner: ldap
+    group: ldap
+    dest: /
+    mode: 0775
+
+- name: Create LDAP DIT for Apache NiFi Authentication
+  shell: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /ldap-workdir/01-db.ldif &&
+    touch .skip_ldap01
+  args:
+    creates: .skip_ldap01
+
+- name: Create LDAP Basic Schemas COSINE
+  shell: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif &&
+    touch .skip_ldap02
+  args:
+    creates: .skip_ldap02
+
+- name: Create LDAP Basic Schemas NIS
+  shell: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif &&
+    touch .skip_ldap03
+  args:
+    creates: .skip_ldap03
+
+- name: Create LDAP Basic Schemas INETORGPERSON
+  shell: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif &&
+    touch .skip_ldap04
+  args:
+    creates: .skip_ldap04
+
+- name: Create LDAP DIT Manager Account
+  shell: >
+    ldapadd -x -W -D "cn=ldapadm,dc=testbed,dc=lan" -y /ldap-workdir/ldapadm.secret -f /ldap-workdir/02-ldap-manager.ldif &&
+    touch .skip_ldap05
+  args:
+    creates: .skip_ldap05
+
+- name: Create LDAP Base Groups for Apache NiFi
+  shell: >
+    ldapadd -x -W -D "cn=ldapadm,dc=testbed,dc=lan" -y /ldap-workdir/ldapadm.secret -f /ldap-workdir/03-base-groups.ldif &&
+    touch .skip_ldap06
+  args:
+    creates: .skip_ldap06
+
+- name: Create LDAP Initial Users for Apache NiFi
+  shell: >
+    ldapadd -x -W -D "cn=ldapadm,dc=testbed,dc=lan" -y /ldap-workdir/ldapadm.secret -f /ldap-workdir/04-initial-users.ldif &&
+    touch .skip_ldap07
+  args:
+    creates: .skip_ldap07
+
+ #- name: Setup file /etc/phpldapadmin/config.php
+ #  template: 
+ #    src: config.php.j2
+ #    dest: /etc/phpldapadmin/config.php
+ #
+ #- name: Setup file /etc/httpd/conf.d/phpldapadmin.conf
+ #  template: 
+ #    src: phpldapadmin.conf.j2
+ #    dest: /etc/httpd/conf.d/phpldapadmin.conf
+ #
+ #- name: Start Apache HTTPD
+ #  service: 
+ #    name: httpd
+ #    state: started
+ #    enabled: true

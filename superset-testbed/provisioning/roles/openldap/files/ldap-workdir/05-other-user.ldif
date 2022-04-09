@@ -1,0 +1,16 @@
+dn: cn=users,ou=groups,dc=testbed,dc=lan
+changetype: modify
+add: uniquemember
+uniqueMember: cn=test3,ou=people,dc=testbed,dc=lan
+
+dn: cn=test3,ou=people,dc=testbed,dc=lan
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: top
+cn: test3
+description: A test user
+sn: test3
+uid: test3
+mail: test3@testbed.lan
+userpassword: password

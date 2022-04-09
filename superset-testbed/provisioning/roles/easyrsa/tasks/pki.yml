@@ -1,0 +1,9 @@
+---
+- name: Does PKI exist
+  stat:
+    path: "{{ easyrsa_pki_dir }}"
+  register: easyrsa_pki_exists
+
+- name: Init PKI if not exits
+  command: "{{ easyrsa_command }} --pki-dir={{ easyrsa_pki_dir }} init-pki"
+  when: not easyrsa_pki_exists.stat.exists

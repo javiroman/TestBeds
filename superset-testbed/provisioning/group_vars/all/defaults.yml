@@ -1,0 +1,63 @@
+---
+ansible_become: yes
+
+# Minimal CentOS system packages
+system_packages:
+  - git
+  - vim
+  - tree
+  - net-tools
+  - bind-utils
+  - unzip 
+  - curl 
+  - sysstat
+
+jdk_packages:
+  - java-1.8.0-openjdk 
+  - java-1.8.0-openjdk-devel
+
+openldap_packages:
+  - openldap 
+  - openldap-clients 
+  - openldap-servers
+  - phpldapadmin
+  - python-ldap
+  - libtool-ltdl
+
+superset_packages:
+  - python3-pip
+  - python3-devel
+  - gcc
+  - gcc-c++ 
+  - libffi-devel 
+  - openssl-devel 
+  - cyrus-sasl-devel 
+  - openldap-devel
+  - centos-release-scl
+  - rh-python38
+  - rh-python38-python-devel
+
+
+# source /opt/rh/rh-python38/enable
+# python3.8 -m venv superset
+# source superset/bin/activate
+# pip install --upgrade pip
+# pip install apache-superset
+# superset db upgrade
+# export FLASK_APP=superset
+# superset fab create-admin (--help para que no sea interactivo)
+# superset load_examples
+# superset init
+# superset run -p 8088 -h 10.0.0.102 --with-threads --reload --debugger
+
+# RPM Keedio versions
+nifi_server_version: 1.12.1-1
+nifi_toolkit_version: 1.12.1-1
+nifi_registry_version: 0.8.0-1
+zookeeper_version: 3.6.1-1
+
+rpm_url: "{{ lookup('env','RPM_URL') }}"
+nifi_server_rpm: "nifi-server-{{ nifi_server_version }}.el7.x86_64.rpm"
+nifi_toolkit_rpm: "nifi-toolkit-{{ nifi_toolkit_version }}.el7.x86_64.rpm"
+nifi_registry_rpm: "nifi-registry-{{ nifi_registry_version }}.el7.x86_64.rpm"
+zookeeper_server_rpm: "zookeeper-{{ zookeeper_version }}.el7.x86_64.rpm"

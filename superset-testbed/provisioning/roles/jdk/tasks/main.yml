@@ -1,0 +1,10 @@
+---
+- name: Install OpenJDK
+  yum: 
+    name: "{{ jdk_packages }}" 
+    state: present
+
+- name: Setup wide JAVA_HOME at /etc/profile.d
+  template: 
+    src: java.sh.j2 
+    dest: /etc/profile.d/java.sh

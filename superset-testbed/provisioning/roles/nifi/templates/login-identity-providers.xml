@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+    This file lists the login identity providers to use when running securely. In order
+    to use a specific provider it must be configured here and it's identifier
+    must be specified in the nifi.properties: 
+
+    nifi.security.user.login.identity.provider=ldap-provider
+-->
+<loginIdentityProviders>
+    <provider>
+        <identifier>ldap-provider</identifier>
+        <class>org.apache.nifi.ldap.LdapProvider</class>
+        <property name="Authentication Strategy">SIMPLE</property>
+
+        <property name="Manager DN">cn=ldapadm,dc=testbed,dc=lan</property>
+        <property name="Manager Password">adm</property>
+
+        <property name="Referral Strategy">FOLLOW</property>
+        <property name="Connect Timeout">10 secs</property>
+        <property name="Read Timeout">10 secs</property>
+
+        <property name="Url">ldap://kmod-ldap.testbed.lan</property>
+        <property name="User Search Base">ou=people,dc=testbed,dc=lan</property>
+        <property name="User Search Filter">uid={0}</property>
+
+        <property name="Identity Strategy">USE_DN</property>
+        <property name="Authentication Expiration">12 hours</property>
+    </provider>
+</loginIdentityProviders>

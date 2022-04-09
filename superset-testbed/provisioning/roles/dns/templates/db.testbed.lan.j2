@@ -1,0 +1,18 @@
+$TTL    604800
+@       IN      SOA    superset-dns.testbed.lan. admin.testbed.lan. (
+             3          ; Serial
+             604800     ; Refresh
+              86400     ; Retry
+            2419200     ; Expire
+             604800 )   ; Negative Cache TTL
+
+; name servers - NS records
+    IN      NS   superset-dns.testbed.lan. 
+
+; name servers - A records 10.0.10.0/24 - A records
+superset-dns.testbed.lan.      IN      A   {{ hostvars['superset-dns'].ansible_host }}
+superset-ldap.testbed.lan.     IN      A   {{ hostvars['superset-ldap'].ansible_host }}
+superset-core.testbed.lan.    IN      A   {{ hostvars['superset-core'].ansible_host }}
+superset-atlas.testbed.lan. IN      A   {{ hostvars['superset-atlas'].ansible_host }}
+superset-sources.testbed.lan.   IN      A   {{ hostvars['superset-sources'].ansible_host }}
+

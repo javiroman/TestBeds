@@ -1,0 +1,42 @@
+---
+- name: Check if easyrsa is installed
+  stat:
+    path: "{{ easyrsa_bin_dir }}"
+  register: easyrsa_bin_exists
+
+- name: Create easyrsa directory
+  file:
+    path: "{{ easyrsa_bin_dir }}"
+    state: directory
+    mode: '0775'
+  when: not easyrsa_bin_exists.stat.exists
+
+- name: Create tmp download directory
+  tempfile:
+    state: directory
+  register: easyrsa_download_dir
+  when: not easyrsa_bin_exists.stat.exists
+
+- name: Download official easyrsa release
+  get_url:
+    url: "https://github.com/OpenVPN/easy-rsa/releases/download/v{{ easyrsa_version }}/EasyRSA-{{ easyrsa_version }}.tgz"
+    dest: "{{ easyrsa_download_dir.path }}/EasyRSA-{{ easyrsa_version }}.tgz"
+    mode: 0755
+  when: not easyrsa_bin_exists.stat.exists
+
+- name: Unzip downloaded file
+  unarchive:
+    src: "{{ easyrsa_download_dir.path }}/EasyRSA-{{ easyrsa_version }}.tgz"
+    dest: "{{ easyrsa_bin_dir }}/"
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0770'
+  when: not easyrsa_bin_exists.stat.exists
+
+- name: Create symbolic link 
+  file:
+    src: "{{ easyrsa_bin_dir }}/EasyRSA-{{ easyrsa_version }}/easyrsa"
+    dest: "{{ easyrsa_bin_dir }}/easyrsa"
+    state: link
+  when: not easyrsa_bin_exists.stat.exists

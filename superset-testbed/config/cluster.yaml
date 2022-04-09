@@ -1,0 +1,26 @@
+---
+- name: superset-dns
+  box: centos/7
+  ip: 10.0.0.100
+  mem: 512
+  cpu: 1
+- name: superset-ldap
+  box: centos/7
+  ip: 10.0.0.101
+  mem: 512
+  cpu: 1
+- name: superset-core
+  box: centos/7
+  ip: 10.0.0.102
+  mem: 4096
+  cpu: 2
+- name: superset-atlas
+  box: centos/7
+  ip: 10.0.0.103
+  mem: 2048
+  cpu: 2
+- name: superset-sources
+  box: centos/7
+  ip: 10.0.0.104
+  mem: 2048
+  cpu: 2

@@ -1,0 +1,17 @@
+<?php
+//
+// /etc/phpldapadmin/config.php
+//
+$servers = new Datastore();
+$servers->newServer('ldap_pla');
+$servers->setValue('server','name','Testbed LDAP Server');
+
+// IP fija de kmod-ldap.testbed.lan
+$servers->setValue('server','host','100.0.10.101');
+//$servers->setValue('server','port',636);
+$servers->setValue('server','base',array('dc=testbed,dc=lan'));
+$servers->setValue('login','bind_id','cn=admin,dc=testbed,dc=lan');
+$config->custom->appearance['hide_template_warning'] = true;
+//$servers->setValue('login','attr','uid');
+?>
+

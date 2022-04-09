@@ -1,0 +1,30 @@
+---
+- name: Sanity checking Ansible version
+  run_once: true
+  delegate_to: localhost
+  assert:
+    that: 
+      - ansible_version.full is version_compare('2.2.0.0', '>')
+    msg: "Please install at least ansible 2.2.x.x in your host"
+
+- name: Install Miniaml CentOS Packages
+  yum: 
+    name: "{{ system_packages }}" 
+    state: present
+
+- name: Disabling SELinux (anti-pattern)
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: Effective disabling of SELinux (avoiting reboot)
+  command: /usr/sbin/setenforce 0
+
+- name: Stopping Firewall rules (anti-pattner)
+  service: 
+    name: firewalld 
+    state: stopped 
+    enabled: no
+
+- name: Effective disabling of iptables rules
+  command: /usr/sbin/iptables -F

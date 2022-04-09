@@ -1,0 +1,3 @@
+easyrsa_command: "{{ easyrsa_bin_dir }}/easyrsa"
+
+easyrsa_ca_options: "--batch --pki-dir={{ easyrsa_pki_dir }} --digest={{ easyrsa_ca_digest }} --dn-mode={{ easyrsa_ca_dn_mode }} --keysize={{ easyrsa_ca_keysize }} --use-algo={{ easyrsa_ca_use_algo }} --req-c='{{ easyrsa_ca_req_c }}' --req-st='{{ easyrsa_ca_req_st }}' --req-city='{{ easyrsa_ca_req_city }}' --req-org='{{ easyrsa_ca_req_org }}' --req-email='{{ easyrsa_ca_req_email }}' --req-ou='{{ easyrsa_ca_req_ou }}'"

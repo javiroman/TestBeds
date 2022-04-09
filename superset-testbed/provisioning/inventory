@@ -1,0 +1,14 @@
+[dns]
+superset-dns ansible_host=10.0.0.100
+
+[ldap]
+superset-ldap ansible_host=10.0.0.101
+
+[core]
+superset-core ansible_host=10.0.0.102
+
+[atlas]
+superset-atlas ansible_host=10.0.0.103
+
+[sources]
+superset-sources ansible_host=10.0.0.104

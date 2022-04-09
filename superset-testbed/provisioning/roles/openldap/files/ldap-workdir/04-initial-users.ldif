@@ -1,0 +1,48 @@
+dn: cn=users,ou=groups,dc=testbed,dc=lan
+objectClass: groupOfUniqueNames
+objectClass: top
+cn: users
+uniqueMember: cn=test1,ou=people,dc=testbed,dc=lan
+uniqueMember: cn=test2,ou=people,dc=testbed,dc=lan
+
+dn: cn=test1,ou=people,dc=testbed,dc=lan
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: top
+cn: test1
+description: A test user
+sn: test1
+uid: test1
+mail: test1@testbed.lan
+userpassword: password
+
+dn: cn=test2,ou=people,dc=testbed,dc=lan
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: top
+cn: test2
+description: A test user
+sn: test2
+uid: test2
+mail: test2@testbed.lan
+userpassword: password
+
+dn: cn=admins,ou=groups,dc=testbed,dc=lan
+objectClass: groupOfUniqueNames
+objectClass: top
+cn: admins
+uniqueMember: cn=admin,ou=people,dc=testbed,dc=lan
+
+dn: cn=admin,ou=people,dc=testbed,dc=lan
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: top
+cn: admin
+description: A admin user
+sn: admin
+uid: admin
+mail: admin@testbed.lan
+userpassword: password

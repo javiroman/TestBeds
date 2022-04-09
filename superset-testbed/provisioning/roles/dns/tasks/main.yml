@@ -1,0 +1,60 @@
+---
+- name: Install Bind
+  yum: 
+    name: bind
+    state: present
+
+- name: Install Bind Utils
+  yum: 
+    name: bind-utils
+    state: present
+
+- name: Setup /etc/named.conf 
+  template: 
+    src: named.conf.j2
+    dest: /etc/named.conf
+    owner: root
+    group: named
+    mode: 0640
+    force: yes
+
+- name: Create folder /etc/named/zones
+  file:
+    path: /etc/named/zones
+    state: directory
+    owner: root
+    group: named
+    mode: 0755
+
+- name: Setup /etc/named/zones/db.testbed.lan
+  template: 
+    src: db.testbed.lan.j2
+    dest: /etc/named/zones/db.testbed.lan
+    owner: root
+    group: named
+    mode: 0640
+    force: yes
+
+- name: Setup /etc/named/zones/db.10.0.100
+  template: 
+    src: db.10.0.100.j2
+    dest: /etc/named/zones/db.10.0.100
+    owner: root
+    group: named
+    mode: 0640
+    force: yes
+
+- name: Setup /etc/named/named.conf.local
+  template: 
+    src: named.conf.local.j2
+    dest: /etc/named/named.conf.local
+    owner: root
+    group: named
+    mode: 0640
+    force: yes
+
+- name: Bind service startup
+  service:
+    name: named
+    state: started
+    enabled: yes

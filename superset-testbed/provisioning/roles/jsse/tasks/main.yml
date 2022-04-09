@@ -1,0 +1,34 @@
+---
+- name: JKS Create jks-wordir folder
+  copy:
+    src: jks-workdir
+    dest: /
+    mode: 0775
+
+      #- name: JKS Create PEM Server Chain
+      #  shell: >
+      #    bash /jks-workdir/01-create-chain.sh &&
+      #    touch .skip_jks01
+      #  args:
+      #    creates: .skip_jks01
+      #
+      #- name: JKS Create Keystore PKCS12
+      #  shell: >
+      #    bash /jks-workdir/02-create-keystore-pkcs12.sh &&
+      #    touch .skip_jks02
+      #  args:
+      #    creates: .skip_jks02
+      #
+      #- name: JKS Convert PKCS12 to Java JKS
+      #  shell: >
+      #    bash /jks-workdir/03-convert-keystore-jks.sh &&
+      #    touch .skip_jks03
+      #  args:
+      #    creates: .skip_jks03
+      #
+      #- name: JKS Create Java TrustStore with NiFi CA
+      #  shell: >
+      #    bash /jks-workdir/04-put-ca-in-truststore.sh &&
+      #    touch .skip_jks04
+      #  args:
+      #    creates: .skip_jks04

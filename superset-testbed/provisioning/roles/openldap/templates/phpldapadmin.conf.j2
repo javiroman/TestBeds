@@ -1,0 +1,11 @@
+#
+# /etc/httpd/conf.d/phpldapadmin.conf
+#
+Alias /phpldapadmin /usr/share/phpldapadmin/htdocs
+Alias /ldapadmin /usr/share/phpldapadmin/htdocs
+
+<Directory /usr/share/phpldapadmin/htdocs>
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</Directory>

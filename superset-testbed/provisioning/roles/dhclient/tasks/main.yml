@@ -1,0 +1,23 @@
+- name: Setup /etc/dhcp/dhclient.conf
+  template: 
+    src: dhclient.conf.j2
+    dest: /etc/dhcp/dhclient.conf
+    owner: root
+    group: root
+    mode: 0640
+    force: yes
+
+- name: Bind service startup
+  service:
+    name: NetworkManager
+    state: restarted
+
+- name: Check Bind is working fine
+  shell: host kmod-ldap.testbed.lan
+  register: result
+  failed_when: (result.rc not in [ 0, 1 ])
+
+- name: Check Bind is working fine (reverse lookup)
+  shell: host 100.0.10.101 
+  register: result
+  failed_when: (result.rc not in [ 0, 1 ])

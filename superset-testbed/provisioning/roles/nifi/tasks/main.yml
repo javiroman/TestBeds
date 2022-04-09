@@ -1,0 +1,17 @@
+---
+- name: Install Apache NiFi RPM
+  yum: 
+    name: "{{ rpm_url }}/{{ nifi_server_rpm }}" 
+    state: present
+  ignore_errors: True
+
+- name: Setup Apache NiFi nifi.properties
+  template: 
+    src: nifi.properties.j2 
+    dest: /opt/keedio/nifi/conf/nifi.properties
+
+- name: Start Apache NiFi Server
+  service: 
+    name: nifi 
+    state: started
+    enabled: true

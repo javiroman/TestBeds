@@ -1,0 +1,13 @@
+---
+- name: Check EasyRSA tool
+  include: easyrsa.yml
+
+- name: Check PKI
+  include: pki.yml
+
+- name: Check CA and DH
+  include: ca.yml
+
+- name: Check certs
+  include: cert.yml
+  with_items: "{{ easyrsa_cert_list }}"

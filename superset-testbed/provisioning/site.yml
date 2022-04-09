@@ -1,0 +1,27 @@
+---
+# - Ansible PLAYs maps ROLEs to HOSTs.  
+# - ROLEs are just abstractions around TASKs, aggrupation of
+#   TASKs for a logical entity (for example LDAP setup)
+# - Each "hosts:" block is a PLAY.
+# - A PLAY will be executed one by one. So you can use multiple
+#   blocks to force the desired execution order.
+# - The PLAYs are executed from top-to-down order.
+# - Multiple ROLEs declarations per PLAY are executed
+#   non in special order, you cannot control the order
+#   of ROLEs within a PLAY.
+
+- hosts: all
+  roles:
+    - common
+    - { 
+        role: jdk, 
+        when: "inventory_hostname in lookup('inventory_hostnames', 'atlas:sources')"
+      }
+
+- hosts: dns
+  roles:
+    - dns
+
+- hosts: all
+  roles:
+    - dhclient
