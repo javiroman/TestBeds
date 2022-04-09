@@ -1,0 +1,6 @@
+    1  curl -LO https://github.com/grafana/loki/releases/download/v2.4.2/promtail-linux-amd64.zip
+    8  curl -LO https://raw.githubusercontent.com/grafana/loki/main/clients/cmd/promtail/promtail-local-config.yaml
+   12  ./promtail-linux-amd64 --config.file=promtail-local-config.yaml 
+   19  sudo ./promtail-linux-amd64 --config.file=promtail-local-config.yaml
+   20  echo 'sudo ./promtail-linux-amd64 --config.file=promtail-local-config.yaml' > run.sh
+   29  cat /tmp/positions.yaml 

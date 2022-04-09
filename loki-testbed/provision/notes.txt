@@ -1,0 +1,8 @@
+sudo setenforce 0
+curl -LO https://github.com/grafana/loki/releases/download/v2.4.2/loki-linux-amd64.zip
+curl -LO https://raw.githubusercontent.com/grafana/loki/master/cmd/loki/loki-local-config.yaml
+./loki-linux-amd64 -config.file=loki-local-config.yaml
+echo './loki-linux-amd64 -config.file=loki-local-config.yaml' > run.sh
+sh run.sh 
+sudo yum install https://dl.grafana.com/oss/release/grafana-8.2.5-1.x86_64.rpm
+sudo systemctl start grafana-server
