@@ -1,0 +1,39 @@
+# Data source for MySQL database CarSales
+module add \
+	--name=com.mysql \
+	--resources=/home/jromanes/squirrel-sql-3.7/lib/mysql-connector-java-5.1.36/mysql-connector-java-5.1.36-bin.jar \
+	--dependencies=javax.api,javax.transaction.api
+
+/subsystem=datasources/jdbc-driver=mysql:add(\
+	driver-name="mysql", \
+	driver-module-name="com.mysql", \
+	driver-class-name=com.mysql.jdbc.Driver)
+
+data-source add \
+	--jndi-name=java:/MyConnectionMySQL \
+	--name=carsalesConn \
+	--connection-url=jdbc:mysql://localhost:3306/carsales \
+	--driver-name=mysql \
+	--user-name=admin \
+	--password=admin
+
+# Data source for PostgreSQL database CarRepairs 
+module add \
+	--name=com.postgresql \
+	--resources=/usr/share/java/postgresql-jdbc.jar \
+	--dependencies=javax.api,javax.transaction.api
+
+/subsystem=datasources/jdbc-driver=postgresql:add(\
+	driver-name="postgresql", \
+	driver-module-name="com.postgresql", \
+	driver-class-name=org.postgresql.Driver)
+
+data-source add \
+	--jndi-name=java:/MyConnectionPostgreSQL \
+	--name=carrepairsConn \
+	--connection-url=jdbc:postgresql://localhost/carrepairs \
+	--driver-name=postgresql \
+	--user-name=admin \
+	--password=admin
+
+

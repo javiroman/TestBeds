@@ -1,0 +1,46 @@
+$ sudo postgresql-setup initdb
+$ sudo systemctl start postgresql.service
+$ sudo -u postgres psql
+postgres=# \du
+
+Role name |                   Attributes                   | Member of 
+-----------+------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication | {}
+
+postgres=# CREATE ROLE admin WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'admin';
+postgres=# select * from pg_shadow;
+ usename  | usesysid | usecreatedb | usesuper | usecatupd | userepl |               passwd                | valuntil | useconfig 
+----------+----------+-------------+----------+-----------+---------+-------------------------------------+----------+-----------
+ postgres |       10 | t           | t        | t         | t       |                                     |          | 
+ admin    |    16389 | t           | t        | t         | f       | md5f6fdffe48c908deb0f4c3bd36c032e72 |          | 
+(2 rows)
+
+postgres=# \du
+                             List of roles
+ Role name |                   Attributes                   | Member of 
+-----------+------------------------------------------------+-----------
+ admin     | Superuser, Create role, Create DB              | {}
+ postgres  | Superuser, Create role, Create DB, Replication | {}
+
+$ sudo vim /var/lib/pgsql/data/pg_hba.conf                                                                                                                                           
+# IPv4 local connections:
+- host    all             all             127.0.0.1/32            ident  
++ host    all             all             127.0.0.1/32            password
+
+# Manual -> http://www.postgresql.org/docs/9.1/static/auth-methods.html
+
+$ sudo systemctl restart postgresql.service                                                                                                                                          
+$ psql -h localhost -U admin postgres
+
+postgres=# \l
+                                  List of databases
+   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges   
+-----------+----------+----------+-------------+-------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +
+           |          |          |             |             | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +
+           |          |          |             |             | postgres=CTc/postgres
+(3 rows)
+
+

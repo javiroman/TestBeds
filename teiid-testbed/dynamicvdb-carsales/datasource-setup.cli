@@ -1,0 +1,19 @@
+module add \
+	--name=com.mysql \
+	--resources=/home/jromanes/squirrel-sql-3.7/lib/mysql-connector-java-5.1.36/mysql-connector-java-5.1.36-bin.jar \
+	--dependencies=javax.api,javax.transaction.api
+
+/subsystem=datasources/jdbc-driver=mysql:add(\
+	driver-name="mysql", \
+	driver-module-name="com.mysql", \
+	driver-class-name=com.mysql.jdbc.Driver)
+
+data-source add \
+	--jndi-name=java:/MyConnectionName \
+	--name=myDynamicVDBcarsales \
+	--connection-url=jdbc:mysql://localhost:3306/carsales \
+	--driver-name=mysql \
+	--user-name=admin \
+	--password=admin
+
+

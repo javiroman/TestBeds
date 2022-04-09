@@ -1,0 +1,12 @@
+assets/kudu-1.15.0-SNAPSHOT.tar.gz filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-proto-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-spark3_2.12-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-subprocess-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-test-utils-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-backup3_2.12-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-client-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-hive-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-spark3-tools_2.12-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-backup-common-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-backup-tools-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+assets/java-api/kudu-jepsen-1.15.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,15 @@
+[Unit]
+Description=Apache Hive Metastore - HSM
+Documentation=http://hive.apache.org
+
+[Service]
+Type=simple
+Environment=JAVA_HOME=/usr/lib/jvm/java/
+Environment=HADOOP_HOME=/opt/antelope/hadoop
+ExecStart=/opt/antelope/hive/bin/hive --service metastore --hiveconf hive.root.logger=DEBUG,console
+TimeoutStopSec=5
+Restart=on-failure
+User=hive
+
+[Install]
+WantedBy=multi-user.target

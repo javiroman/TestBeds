@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="CarSalesRepairsDatabase" version="1">
+
+   <description>Dynamic VDB for Carsales and Repairs database federation with integration</description>
+   <property name="UseConnectorMetadata" value="true" />
+
+   <model visible="true"  type="VIRTUAL" name="integration">
+	<!-- We have to create a table for the relationship between CarSales and CarRepairs databases -->
+	<metadata type="DDL"><![CDATA[
+
+		CREATE VIEW integrationTable (
+		    caridshop string,
+		    carvinrepairs string,
+		    carshopyear string,
+		    carshopcolour string
+		    ) OPTIONS (UPDATABLE 'TRUE') AS 
+		      SELECT B.carPlate, B.carVIN, A.carYear, A.carColour
+		      FROM carsalesmodel.carshop AS A,
+		      carsalesmodel.platesvin AS B
+			where A.carid = B.carPlate
+
+		CREATE TRIGGER ON integrationTable INSTEAD OF INSERT AS 
+		FOR EACH ROW BEGIN 
+			INSERT INTO carsalesmodel.carshop VALUES (NEW.caridshop, NEW.carshopyear, NEW.carshopcolour); 
+			INSERT INTO carsalesmodel.platesvin VALUES (NEW.caridshop, NEW.carvinrepairs); 
+		END
+
+        ]]>
+        </metadata>
+   </model>  
+
+   <model name="carsalesmodel">
+        <!-- 
+          JDBC Import settings 
+          
+          importer.useFullSchemaName directs the importer to drop the source 
+          schema from the Teiid object name, so that the Teiid fully qualified name
+          will be in the form of <model name>.<table name>                                                                                           
+        -->
+        <property name="importer.useFullSchemaName" value="false"/>                                                                                  
+           
+         <!--
+            This connector is defined to reference the MySQL"                                                                                   
+          -->
+	<source name="MySourceMySQL" translator-name="mysql5" connection-jndi-name="java:/MyConnectionMySQL"/>
+   </model>
+
+   <model name="carrepairsmodel">
+        <property name="importer.useFullSchemaName" value="false"/>                                                                                  
+           
+         <!--
+            This connector is defined to reference the PostgreSQL"                                                                                   
+          -->
+	<source name="MySourcePostgreSQL" translator-name="postgresql" connection-jndi-name="java:/MyConnectionPostgreSQL"/>
+   </model>
+
+
+</vdb>

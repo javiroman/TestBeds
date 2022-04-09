@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>teiid-java-client</artifactId>
+	<groupId>simple-java-client</groupId>
+	<version>0.0.1</version>
+
+	<name>SimpleJavaClient</name>
+	<description>Making connections to Teiid through both, a Driver and a DataSource</description>
+
+	<properties>
+	    <version.teiid>8.7.1.6_2-redhat-6</version.teiid>
+	    <!--version.teiid>8.11.0.Final</version.teiid-->
+	    <version.org.codehaus.mojo.exec.plugin>1.2.1</version.org.codehaus.mojo.exec.plugin>
+	</properties>
+
+	<dependencies>
+	    <dependency>
+                <groupId>org.jboss.teiid</groupId>
+                <artifactId>teiid</artifactId>
+                <version>${version.teiid}</version>
+                <classifier>jdbc</classifier>
+	    </dependency>
+	    <dependency>
+                <groupId>org.jboss.teiid</groupId>
+                <artifactId>teiid-common-core</artifactId>
+                <version>${version.teiid}</version>
+ 	    </dependency>
+	    <dependency>
+                <groupId>org.jboss.teiid</groupId>
+                <artifactId>teiid-client</artifactId>
+                <version>${version.teiid}</version>
+ 	    </dependency>
+	</dependencies>
+
+    <profiles>
+        <profile>
+            <id>defaultuser</id>
+            <activation>
+                <property>
+                    <name>vdb</name>
+                </property>
+            </activation>                     
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${version.org.codehaus.mojo.exec.plugin}</version>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>JDBCClient</mainClass>
+                                    <arguments>
+                                        <argument>localhost</argument>
+					<!-- JDBC port -->
+                                        <argument>31000</argument>
+                                        <argument>${vdb}</argument>
+                                        <argument>${sql}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>                
+                </plugins>
+            </build>
+        </profile>         
+    </profiles>
+</project>

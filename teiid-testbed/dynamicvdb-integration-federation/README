@@ -1,0 +1,33 @@
+Step-1: Setup Data Sources
+
+We have to set up the data source, in this example only is a MySQL database "carsales".
+
+We have to create a connection towards our MySQL database: Start by defining a datasource, here is a sample CLI script:
+
+- Install PostgreSQL JDB:
+
+$ sudo dnf install postgresql-jdbc
+
+$ cat datasource-setup.cli
+module add --name=com.mysql --resources=/home/jromanes/squirrel-sql-3.7/lib/mysql-connector-java-5.1.36/mysql-connector-java-5.1.36-bin.jar --dependencies=javax.api,javax.transaction.api
+/subsystem=datasources/jdbc-driver=mysql:add(driver-name="mysql",driver-module-name="com.mysql",driver-class-name=com.mysql.jdbc.Driver)
+data-source add --jndi-name=java:/MyConnectionName --name=myDynamicVDBcarsales --connection-url=jdbc:mysql://localhost:3306/carsales --driver-name=mysql --user-name=admin --password=admin
+
+cd to the $JBOSS_JDV_HOME/bin directory
+./jboss-cli.sh --connect --file=/home/jromanes/HACK/dev/JDV/JDV-basic-workshop.git/dynamicvdb-carsales/datasource-setup.cli 
+
+./jboss-cli.sh --connect
+data-source remove --name=ExampleDS
+
+Step-3: Building a VDB
+Step-4: VDB Deployment
+
+Open the admin console to make sure the VDB is deployed
+
+	*  open a brower to http://localhost:9990/console (admin user defined in installation time)
+
+Step-5: Connecting to a VDB through JDBC
+
+
+Note: Teiid upstream Adding a MySQL datasource to JBoss AS 7
+https://zorq.net/b/2011/07/12/adding-a-mysql-datasource-to-jboss-as-7/

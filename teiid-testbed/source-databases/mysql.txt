@@ -1,0 +1,36 @@
+$ mysql -u root
+
+mysql> CREATE USER 'admin'@'localhost' IDENTIFIED BY 'some_pass';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost';
+mysql> FLUSH PRIVILEGES;
+mysql> exit
+
+$ mysql -u admin -p
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| world              |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> select User,host from mysql.user;                                                                                                                                                                           
++-------+-----------+
+| User  | host      |
++-------+-----------+
+| root  | 127.0.0.1 |
+| root  | ::1       |
+|       | localhost |
+| admin | localhost |
+| root  | localhost |
+|       | redoop    |
+| root  | redoop    |
++-------+-----------+
+7 rows in set (0.00 sec)
+
+
+
