@@ -1,0 +1,1 @@
+hdfs dfsadmin -report
